@@ -25,7 +25,7 @@ import edu.stanford.nlp.process.DocumentPreprocessor;
 class MyComparator implements Comparator {
 
 	/**
-	 *	Sorting the Map by value
+	 *	Comparator for Sorting the Map by value
 	 */
 	Map map;
 	public MyComparator(Map map) {
