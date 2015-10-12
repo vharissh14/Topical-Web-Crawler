@@ -14,7 +14,6 @@ public class SimilarityMain {
 	 */
 	public static final String ignorechar="[.,!':+-\\/*{}1234567890;:%=`~]";
 	public static final ArrayList<String> stopwords = new ArrayList<String>();
-	static ArrayList<String> al = new ArrayList<String>();
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		// TODO Auto-generated method stub		
 		BufferedReader br = new BufferedReader(new FileReader("/home/hari/stop1.txt"));
@@ -26,7 +25,7 @@ public class SimilarityMain {
 		String sent="agriculture";
 
 		Similarity ls=new Similarity(stopwords,ignorechar, 0);
-		ls.parseFile("/home/hari/doc");
+		ls.parseFile("/home/hari/doc1");
 		ls.compute(sent);
 		ls.topBiGrams();
 		ls.tfIdfCalculator();

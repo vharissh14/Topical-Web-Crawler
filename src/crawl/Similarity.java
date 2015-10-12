@@ -122,29 +122,34 @@ public class Similarity {
 				tfidf = tf * idf;
 				tfidfvectors[count] = tfidf;
 				count++;
-
-
 			}
 			this.dcount+=1;
 			tfidfDocsVector.add(tfidfvectors);    
 		}
 	}
 
-	public ArrayList<Double> getCosineSimilarity() {
-		int i=3; int j=0;
-		ArrayList<Double> cos_val = new ArrayList<Double>();	
-		ArrayList<Double> cos = new ArrayList<Double>();
-		while(i!=j && j<3) {
-			CosineSimilarity cs = new CosineSimilarity();
-			cos_val.add(cs.cosineSimilarity(tfidfDocsVector.get(i), tfidfDocsVector.get(j)));
-			j++;
+	public double getCosineSimilarity() {
+//		int i=3; int j=0;
+//		ArrayList<Double> cos_val = new ArrayList<Double>();	
+//		ArrayList<Double> cos = new ArrayList<Double>();
+//		while(i!=j && j<3) {
+//			CosineSimilarity cs = new CosineSimilarity();
+//			cos_val.add(cs.cosineSimilarity(tfidfDocsVector.get(i), tfidfDocsVector.get(j)));
+//			j++;
+//		}
+//		double c=0.0;
+//		for(double d: cos_val){
+//			c = c+d;
+//		}
+		double d = 0.0;
+		CosineSimilarity cs = new CosineSimilarity();
+		int i=4;
+			for(int j=0;j<tfidfDocsVector.size();j++){
+				if(i!=j){
+					d+=cs.cosineSimilarity(tfidfDocsVector.get(i), tfidfDocsVector.get(j));
+				}
 		}
-		double b = Collections.max(cos_val);
-		for(double d: cos_val){
-			double c = d/b;
-			cos.add(c);
-		}
-		return cos;
+			return d;
 	}
 
 
