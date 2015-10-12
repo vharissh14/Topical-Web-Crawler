@@ -129,18 +129,6 @@ public class Similarity {
 	}
 
 	public double getCosineSimilarity() {
-//		int i=3; int j=0;
-//		ArrayList<Double> cos_val = new ArrayList<Double>();	
-//		ArrayList<Double> cos = new ArrayList<Double>();
-//		while(i!=j && j<3) {
-//			CosineSimilarity cs = new CosineSimilarity();
-//			cos_val.add(cs.cosineSimilarity(tfidfDocsVector.get(i), tfidfDocsVector.get(j)));
-//			j++;
-//		}
-//		double c=0.0;
-//		for(double d: cos_val){
-//			c = c+d;
-//		}
 		double d = 0.0;
 		CosineSimilarity cs = new CosineSimilarity();
 		int i=4;

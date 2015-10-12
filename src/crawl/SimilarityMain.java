@@ -1,34 +1,38 @@
 package crawl;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class SimilarityMain {
 	/**
 	 * @param args
+	 * @throws IOException 
 	 */
-	public static final String ignorechar="[.,!':+-\\/*{}1234567890;:%=`~]";
-	public static final ArrayList<String> stopwords = new ArrayList<String>();
-	public static void main(String[] args) throws FileNotFoundException, IOException {
-		// TODO Auto-generated method stub		
-		BufferedReader br = new BufferedReader(new FileReader("/home/hari/stop1.txt"));
-		String currentLine;
-		while((currentLine=br.readLine())!=null){
-			stopwords.add(currentLine);
+	public static void main(String[] args) throws IOException
+	{
+		String url="https://en.wikipedia.org/wiki/Rice";
+		Document doc=Jsoup.connect(url).timeout(0).ignoreContentType(true).ignoreHttpErrors(true).get();
+		String text=doc.text();
+		Elements links = doc.select("a[href]");
+		Elements links1 = links.not("a[href~=(?i)\\.(png|jpe?g)]");
+		for (Element link : links1)
+		{
+			System.out.println(link.attr("abs:href"));
+			String link_context=" ";
+			Element parent=link.parent();
+			while (parent!=null&&parent.text()==null&&!parent.text().matches("^"))
+			{
+				parent=parent.parent();
+			}
+			if (parent!=null)
+				link_context=parent.text();
+			link_context.trim();
+			System.out.println(link_context);
 		}
-
-		String sent="agriculture";
-
-		Similarity ls=new Similarity(stopwords,ignorechar, 0);
-		ls.parseFile("/home/hari/doc1");
-		ls.compute(sent);
-		ls.topBiGrams();
-		ls.tfIdfCalculator();
-		System.out.println(ls.getCosineSimilarity());
 	}
+
 }

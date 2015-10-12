@@ -48,20 +48,43 @@ public class TopicalCrawler {
 			Elements links1 = links.not("a[href~=(?i)\\.(png|jpe?g)]");
 			Queue<String[]> temp_queue = new LinkedList<String[]>();
 			for(Element link: links1){
-					String[] url_coll=new String[2];
+					String[] url_coll=new String[3];
 					url_coll[0] = link.attr("abs:href");
 					url_coll[1] = link.text();
+					String link_context=" ";
+					Element parent=link.parent();
+					while (parent!=null&&parent.text()==null&&!parent.text().matches("^"))
+					{
+						parent=parent.parent();
+					}
+					if (parent!=null)
+						link_context=parent.text();
+					link_context.trim();
+					url_coll[2]=link_context;
 					temp_queue.add(url_coll);
 			}
 			double val;
 			for(String[] tmp_url: temp_queue){
-				if((val=similarity_measure(tmp_url[1].replaceAll("[\\[\\]]", "")))>0.1){
+				if((val=similarity_measure(tmp_url[1].replaceAll("[\\[\\]]", "")))>0.15){
 					System.out.println(tmp_url[1]);
 					url_QUEUE.add(tmp_url[0]);
 					//temp_queue.poll();
+					if (temp_queue.isEmpty())
+					{
+						temp_queue.remove();
+					}
 				}
 				else{
-					
+					if ((val=similarity_measure(tmp_url[2].replaceAll("[\\[\\]]", "")))>0.15)
+					{
+						System.out.println(tmp_url[1]);
+						url_QUEUE.add(tmp_url[0]);
+						//temp_queue.poll();
+						if (temp_queue.isEmpty())
+						{
+							temp_queue.remove();
+						}
+					}
 				}
 			}
 		}
@@ -69,7 +92,7 @@ public class TopicalCrawler {
 	
 	public static void main(String[] args) throws IOException{
 		TopicalCrawler t = new TopicalCrawler();
-		t.url_QUEUE.add("https://en.wikipedia.org/wiki/Rice");
+		t.url_QUEUE.add("https://en.wikipedia.org/wiki/Agriculture");
 		t.crawl();
 	}
 }
